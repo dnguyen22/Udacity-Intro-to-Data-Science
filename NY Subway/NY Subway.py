@@ -543,8 +543,8 @@ def predictions(dataframe):
     # this in addition to your calculation will exceed
     # the 30 second limit on the compute servers.
 
-    predictions = np.dot(features_array, theta_gradient_descent)
-    return predictions, plot
+    predicted = np.dot(features_array, theta_gradient_descent)
+    return predicted, plot
 
 
 def plot_cost_history(alpha, cost_history):
@@ -564,4 +564,21 @@ def plot_cost_history(alpha, cost_history):
         'Iteration': range(len(cost_history))
     })
     return ggplot(cost_df, aes('Iteration', 'Cost_History')) + \
-           geom_point() + ggtitle('Cost History for alpha = %.3f' % alpha)
+        geom_point() + ggtitle('Cost History for alpha = %.3f' % alpha)
+
+
+def plot_residuals(turnstile_weather, predictions):
+    """
+    Using the same methods that we used to plot a histogram of entries
+    per hour for our data, why don't you make a histogram of the residuals
+    (that is, the difference between the original hourly entry data and the predicted values).
+    Try different binwidths for your histogram.
+
+    Based on this residual histogram, do you have any insight into how our model
+    performed?  Reading a bit on this webpage might be useful:
+
+    http://www.itl.nist.gov/div898/handbook/pri/section2/pri24.htm
+    """
+    plt.figure()
+    (turnstile_weather['ENTRIESn_hourly'] - predictions).hist()
+    return plt
